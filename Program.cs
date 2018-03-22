@@ -14,7 +14,7 @@ namespace classes
 
             do{
                 Console.WriteLine("1 - Create Account\n2 - Login Account");
-                
+
                 if(double.TryParse(Console.ReadLine(), out choice)){
 
                         switch(choice){
@@ -70,10 +70,36 @@ namespace classes
             var makeAccount = new BankAccount(newBankAccount.Owner,amount, newBankAccount.password);
 
             allBankAccounts.Add(makeAccount);
+
+            Console.WriteLine("create account completed.");
             readAllAccounts();
         }
         static void LoginAccount(){
             Console.WriteLine("Logging in...");
+            string name, password;
+
+            Console.WriteLine("Enter name: ");
+            name = Console.ReadLine();
+
+            var responseName = allBankAccounts.Find(item => item.Owner == name);
+            
+            try{
+                if(responseName.Owner == name){
+                    Console.WriteLine("Enter password: ");
+                    password = Console.ReadLine();
+
+                    if(responseName.password.IndexOf(password) != -1){
+                        Console.WriteLine("Successfully Logged in.");
+                    }else{
+                        Console.WriteLine("Wrong password.");
+                    }
+                }
+            }
+            catch(NullReferenceException e){
+                Console.WriteLine("Your name is not in our records.");
+                Console.WriteLine(e.ToString());
+            }
+
         }
 
         static void readAllAccounts(){
